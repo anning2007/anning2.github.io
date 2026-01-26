@@ -447,13 +447,13 @@
         function playWelcomeAudio() {
             if (welcomeAudio) {
                 welcomeAudio.play().then(() => {
-                    audioStatus.textContent = '音频: 播放中';
+                    audioStatus.textContent = '';
                     setTimeout(() => {
-                        audioStatus.textContent = '音频: 就绪';
+                        audioStatus.textContent = '';
                     }, 1000);
                 }).catch(error => {
-                    console.error('播放欢迎音频失败:', error);
-                    audioStatus.textContent = '音频: 播放失败';
+                    console.error('', error);
+                    audioStatus.textContent = '';
                 });
             }
         }
