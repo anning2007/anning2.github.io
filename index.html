@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>传令员</title>
     <style>
+        /* [所有CSS样式保持不变] */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* 自定义字体声明 */
         @font-face {
             font-family: 'FashionBitmap';
             src: url('ziti/FashionBitmap16_0.092.ttf') format('truetype');
@@ -32,7 +32,6 @@
             position: relative;
         }
 
-        /* 容器渐变出现效果 */
         .container {
             opacity: 0;
             transform: translateY(30px);
@@ -47,7 +46,6 @@
             border: none;
         }
 
-        /* 图片样式 - 无发光效果 */
         .header-image {
             width: 180px;
             height: 180px;
@@ -66,7 +64,6 @@
             object-fit: cover;
         }
 
-        /* 指令标题样式 - 纯蓝光文字 */
         .instruction-title {
             color: #ffffff;
             font-family: 'FashionBitmap', monospace;
@@ -108,7 +105,6 @@
             box-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
         }
 
-        /* 指令内容样式 - 纯蓝光文字 */
         .instruction-text {
             color: #ffffff;
             font-family: 'FashionBitmap', monospace;
@@ -148,7 +144,6 @@
             font-family: inherit;
         }
 
-        /* 页脚 - 纯蓝光文字 */
         .footer {
             margin-top: 40px;
             color: rgba(255, 255, 255, 0.7);
@@ -174,7 +169,6 @@
                 0 0 24px rgba(0, 150, 255, 0.5);
         }
 
-        /* 点击提示动画 */
         .click-hint {
             position: absolute;
             bottom: -40px;
@@ -191,7 +185,6 @@
                 0 0 10px rgba(0, 200, 255, 0.6);
         }
 
-        /* 限制提示样式 */
         .limit-hint {
             position: absolute;
             bottom: -60px;
@@ -204,7 +197,6 @@
             pointer-events: none;
         }
 
-        /* 打字机光标 */
         .cursor {
             display: inline-block;
             width: 3px;
@@ -216,7 +208,6 @@
             animation: blink 1s infinite;
         }
 
-        /* 音频状态指示器 */
         .audio-status {
             position: fixed;
             bottom: 20px;
@@ -227,48 +218,27 @@
             font-family: monospace;
         }
 
-        /* 动画定义 */
         @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes popIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes float-image {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         @keyframes fadeInOut {
-            0%, 100% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(-5px);
-            }
+            0%, 100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
         }
 
         @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         @keyframes click-pulse {
@@ -292,99 +262,44 @@
             }
         }
 
-        /* 响应式调整 */
         @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            .instruction-title {
-                font-size: 2.8rem;
-                margin-bottom: 20px;
-            }
-
-            .instruction-text {
-                font-size: 2.2rem;
-                min-height: 200px;
-                margin: 30px 0;
-            }
-
-            .header-image {
-                width: 150px;
-                height: 150px;
-                margin-bottom: 30px;
-            }
-
-            .footer {
-                font-size: 1.2rem;
-                margin-top: 30px;
-            }
-
-            .click-hint {
-                font-size: 1.4rem;
-                bottom: -30px;
-            }
-
-            .limit-hint {
-                font-size: 1.2rem;
-                bottom: -45px;
-            }
+            .container { width: 95%; padding: 15px; }
+            .instruction-title { font-size: 2.8rem; margin-bottom: 20px; }
+            .instruction-text { font-size: 2.2rem; min-height: 200px; margin: 30px 0; }
+            .header-image { width: 150px; height: 150px; margin-bottom: 30px; }
+            .footer { font-size: 1.2rem; margin-top: 30px; }
+            .click-hint { font-size: 1.4rem; bottom: -30px; }
+            .limit-hint { font-size: 1.2rem; bottom: -45px; }
         }
 
         @media (max-width: 480px) {
-            .instruction-title {
-                font-size: 2.2rem;
-            }
-
-            .instruction-text {
-                font-size: 1.8rem;
-                min-height: 180px;
-            }
-
-            .click-hint {
-                font-size: 1.2rem;
-                bottom: -25px;
-            }
-
-            .footer {
-                font-size: 1rem;
-            }
-
-            .header-image {
-                width: 120px;
-                height: 120px;
-            }
-
-            .limit-hint {
-                font-size: 1rem;
-                bottom: -35px;
-            }
+            .instruction-title { font-size: 2.2rem; }
+            .instruction-text { font-size: 1.8rem; min-height: 180px; }
+            .click-hint { font-size: 1.2rem; bottom: -25px; }
+            .footer { font-size: 1rem; }
+            .header-image { width: 120px; height: 120px; }
+            .limit-hint { font-size: 1rem; bottom: -35px; }
         }
     </style>
 </head>
 <body>
-    <!-- 音频状态指示器 -->
     <div class="audio-status" id="audioStatus">音频: 准备中</div>
 
     <div class="container">
-        <!-- 图片区域 -->
         <div class="header-image">
-            <!-- 使用指定图片路径 -->
             <img src="img/index_new.png" alt="随机指令图标">
         </div>
 
-        <!-- 指令显示区域 -->
         <div class="instruction-text" id="instructionText">
             点击文字生成随机指令
         </div>
 
-        <!-- 页脚 -->
-       
+        <div class="footer" id="footerText">
+            传令员 - 每日指令
+        </div>
     </div>
 
     <script>
-        // 随机指令库
         const instructions = [
             "一天睡100个小时，醒来后连续吃50个冰淇淋",
             "倒立行走去上班，全程不能双脚着地",
@@ -428,9 +343,7 @@
             "学会用手语唱一首流行歌曲"
         ];
 
-        // 获取DOM元素
         const instructionText = document.getElementById('instructionText');
-        const instructionTitle = document.getElementById('instructionTitle');
         const footerText = document.getElementById('footerText');
         const audioStatus = document.getElementById('audioStatus');
 
@@ -448,28 +361,20 @@
         // 初始化音频
         function initAudio() {
             try {
-                // 创建欢迎音频（页面加载时播放一次）
                 welcomeAudio = new Audio('yin/1.wav');
                 welcomeAudio.preload = 'auto';
-
-                // 创建打字音频（文字出现时播放3秒）
                 typingAudio = new Audio('yin/2.wav');
                 typingAudio.preload = 'auto';
-
                 audioStatus.textContent = '音频: 已加载';
-
-                // 页面加载完成后播放欢迎音频
                 setTimeout(() => {
                     playWelcomeAudio();
                 }, 500);
-
             } catch (error) {
                 console.error('音频初始化失败:', error);
                 audioStatus.textContent = '音频: 加载失败';
             }
         }
 
-        // 播放欢迎音频
         function playWelcomeAudio() {
             if (welcomeAudio) {
                 welcomeAudio.play().then(() => {
@@ -478,32 +383,24 @@
                         audioStatus.textContent = '';
                     }, 1000);
                 }).catch(error => {
-                    console.error('', error);
+                    console.error('播放欢迎音频失败:', error);
                     audioStatus.textContent = '';
                 });
             }
         }
 
-        // 播放打字音频（3秒）
         function playTypingAudio() {
             if (typingAudio && !isTypingAudioPlaying) {
                 isTypingAudioPlaying = true;
-
-                // 重置音频到开始位置
                 typingAudio.currentTime = 0;
-
-                // 播放音频
                 typingAudio.play().then(() => {
                     audioStatus.textContent = '音频: 打字音效';
-
-                    // 3秒后停止播放
                     setTimeout(() => {
                         typingAudio.pause();
                         typingAudio.currentTime = 0;
                         isTypingAudioPlaying = false;
                         audioStatus.textContent = '音频: 就绪';
                     }, 3000);
-
                 }).catch(error => {
                     console.error('播放打字音频失败:', error);
                     isTypingAudioPlaying = false;
@@ -522,8 +419,6 @@
         function canClickToday() {
             const lastClickDate = localStorage.getItem(STORAGE_KEYS.LAST_CLICK_DATE);
             const today = getTodayDateString();
-            
-            // 如果上次点击日期不是今天，则可以点击
             return lastClickDate !== today;
         }
 
@@ -540,7 +435,7 @@
             const lastInstruction = localStorage.getItem(STORAGE_KEYS.LAST_INSTRUCTION);
             const today = getTodayDateString();
 
-            // 如果上次点击是今天，则显示上次的指令
+            // 关键逻辑：如果上次点击是今天，则返回保存的指令
             if (lastClickDate === today && lastInstruction) {
                 return lastInstruction;
             }
@@ -550,13 +445,9 @@
 
         // 显示限制提示
         function showLimitHint() {
-            // 移除可能存在的旧提示
             const oldHint = instructionText.querySelector('.limit-hint');
-            if (oldHint) {
-                oldHint.remove();
-            }
+            if (oldHint) oldHint.remove();
 
-            // 添加新的限制提示
             const limitHint = document.createElement('div');
             limitHint.classList.add('limit-hint');
             limitHint.textContent = '今日指令已生成，请明天再来';
@@ -566,15 +457,12 @@
         // 预加载自定义字体
         function preloadFont() {
             const font = new FontFace('FashionBitmap', 'url(ziti/FashionBitmap16_0.092.ttf)');
-
             font.load().then(function(loadedFont) {
                 document.fonts.add(loadedFont);
                 console.log('字体加载成功');
-                // 字体加载完成后，显示初始文字
                 showInitialText();
             }).catch(function(error) {
                 console.log('字体加载失败:', error);
-                // 如果字体加载失败，使用备用字体
                 document.body.style.fontFamily = "'Courier New', monospace";
                 document.querySelectorAll('.instruction-title, .instruction-text, .footer').forEach(el => {
                     el.style.fontFamily = "'Courier New', monospace";
@@ -585,45 +473,46 @@
 
         // 显示初始文字
         function showInitialText() {
-            // 检查是否有今天已经生成的指令
+            // 首先检查是否有今天已经生成的指令
             const todayInstruction = checkAndRestoreTodayInstruction();
+            
+            console.log('检查今天指令:', {
+                todayDate: getTodayDateString(),
+                lastClickDate: localStorage.getItem(STORAGE_KEYS.LAST_CLICK_DATE),
+                lastInstruction: localStorage.getItem(STORAGE_KEYS.LAST_INSTRUCTION),
+                foundInstruction: todayInstruction
+            });
             
             if (todayInstruction) {
                 // 显示今天的指令
+                console.log('显示今天已生成的指令:', todayInstruction);
                 typeWriter(todayInstruction, instructionText, 60, false);
-                // 添加限制提示
                 showLimitHint();
             } else {
                 // 显示默认提示
+                console.log('显示初始提示，可以点击生成新指令');
                 typeWriter("点击文字生成今日指令", instructionText, 60, false);
             }
         }
 
         // 文字逐个显示函数
         function typeWriter(text, element, speed = 50, playSound = true) {
-            // 清空现有内容
             element.innerHTML = '';
 
-            // 如果需要播放声音，开始播放打字音频
             if (playSound) {
                 playTypingAudio();
             }
 
-            // 创建字符数组
             const chars = text.split('');
             let charIndex = 0;
 
-            // 打字机效果函数
             function typeNextChar() {
                 if (charIndex < chars.length) {
                     const span = document.createElement('span');
                     span.classList.add('char');
                     span.textContent = chars[charIndex] === ' ' ? '\u00A0' : chars[charIndex];
                     element.appendChild(span);
-
-                    // 设置动画延迟
                     span.style.animationDelay = `${charIndex * speed}ms`;
-
                     charIndex++;
                     setTimeout(typeNextChar, speed);
                 } else {
@@ -631,7 +520,6 @@
                     if (!canClickToday()) {
                         showLimitHint();
                     } else {
-                        // 添加点击提示
                         const clickHint = document.createElement('div');
                         clickHint.classList.add('click-hint');
                         clickHint.textContent = '点击生成今日指令';
@@ -640,7 +528,6 @@
                 }
             }
 
-            // 开始打字效果
             typeNextChar();
         }
 
@@ -648,7 +535,7 @@
         function generateRandomInstruction() {
             // 检查是否可以点击
             if (!canClickToday()) {
-                // 显示提示动画
+                console.log('今天已点击过，不能再生成新指令');
                 instructionText.style.animation = 'click-pulse 0.8s ease';
                 setTimeout(() => {
                     instructionText.style.animation = '';
@@ -659,14 +546,15 @@
             // 随机选择一条指令
             const randomIndex = Math.floor(Math.random() * instructions.length);
             const randomInstruction = instructions[randomIndex];
+            
+            console.log('生成新指令:', randomInstruction);
 
             // 记录今天的点击
             recordTodayClick(randomInstruction);
 
-            // 使用打字机效果显示指令（播放打字音频）
+            // 显示指令
             typeWriter(randomInstruction, instructionText, 40, true);
 
-            // 添加点击脉冲效果
             instructionText.style.animation = 'click-pulse 0.8s ease';
             setTimeout(() => {
                 instructionText.style.animation = '';
@@ -675,23 +563,17 @@
 
         // 添加点击事件监听器
         function addClickListeners() {
-            // 只有文字区域可以点击生成指令
             instructionText.addEventListener('click', generateRandomInstruction);
             footerText.addEventListener('click', generateRandomInstruction);
         }
 
         // 页面加载时初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 初始化音频
+            console.log('页面加载完成，开始初始化...');
             initAudio();
-
-            // 预加载字体
             preloadFont();
-
-            // 添加点击事件监听器
             addClickListeners();
-
-            // 添加键盘支持
+            
             document.addEventListener('keydown', function(event) {
                 if (event.code === 'Space' || event.code === 'Enter') {
                     generateRandomInstruction();
