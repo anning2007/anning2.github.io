@@ -134,6 +134,19 @@
             transform: translateY(-3px);
         }
 
+        .instruction-text.disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        .instruction-text.disabled:hover {
+            transform: none;
+            text-shadow: 
+                0 0 8px rgba(0, 100, 255, 0.9),
+                0 0 16px rgba(0, 100, 255, 0.7),
+                0 0 24px rgba(0, 100, 255, 0.5);
+        }
+
         .char {
             display: inline-block;
             opacity: 0;
@@ -160,6 +173,18 @@
                 0 0 10px rgba(0, 100, 255, 0.6);
             border: none;
             background: transparent;
+        }
+
+        .footer.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .footer.disabled:hover {
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 
+                0 0 5px rgba(0, 100, 255, 0.8),
+                0 0 10px rgba(0, 100, 255, 0.6);
         }
 
         .footer:hover {
@@ -294,8 +319,7 @@
         <div class="instruction-text" id="instructionText">
             —点击获取指令—
         </div>
-
-       
+        <div class="footer" id="footerText">传令员</div>
     </div>
 
     <script>
@@ -361,6 +385,9 @@
         let welcomeAudio = null;
         let typingAudio = null;
         let isTypingAudioPlaying = false;
+
+        // 控制标志
+        let hasInstructionToday = false; // 标记今天是否已有指令
 
         // 初始化音频
         function initAudio() {
@@ -431,6 +458,8 @@
             const today = getTodayDateString();
             localStorage.setItem(STORAGE_KEYS.LAST_CLICK_DATE, today);
             localStorage.setItem(STORAGE_KEYS.LAST_INSTRUCTION, instruction);
+            hasInstructionToday = true;
+            updateElementStates();
         }
 
         // 检查并恢复今天的指令（如果有）
@@ -441,10 +470,23 @@
 
             // 关键逻辑：如果上次点击是今天，则返回保存的指令
             if (lastClickDate === today && lastInstruction) {
+                hasInstructionToday = true;
                 return lastInstruction;
             }
             
+            hasInstructionToday = false;
             return null;
+        }
+
+        // 更新元素状态
+        function updateElementStates() {
+            if (hasInstructionToday) {
+                instructionText.classList.add('disabled');
+                footerText.classList.add('disabled');
+            } else {
+                instructionText.classList.remove('disabled');
+                footerText.classList.remove('disabled');
+            }
         }
 
         // 显示限制提示
@@ -484,7 +526,8 @@
                 todayDate: getTodayDateString(),
                 lastClickDate: localStorage.getItem(STORAGE_KEYS.LAST_CLICK_DATE),
                 lastInstruction: localStorage.getItem(STORAGE_KEYS.LAST_INSTRUCTION),
-                foundInstruction: todayInstruction
+                foundInstruction: todayInstruction,
+                hasInstructionToday: hasInstructionToday
             });
             
             if (todayInstruction) {
@@ -497,6 +540,8 @@
                 console.log('显示初始提示，可以点击生成新指令');
                 typeWriter("点击文字生成今日指令", instructionText, 60, false);
             }
+            
+            updateElementStates();
         }
 
         // 文字逐个显示函数
@@ -521,7 +566,7 @@
                     setTimeout(typeNextChar, speed);
                 } else {
                     // 检查是否需要添加限制提示
-                    if (!canClickToday()) {
+                    if (hasInstructionToday) {
                         showLimitHint();
                     } else {
                         const clickHint = document.createElement('div');
@@ -538,7 +583,7 @@
         // 生成随机指令
         function generateRandomInstruction() {
             // 检查是否可以点击
-            if (!canClickToday()) {
+            if (hasInstructionToday) {
                 console.log('今天已点击过，不能再生成新指令');
                 instructionText.style.animation = 'click-pulse 0.8s ease';
                 setTimeout(() => {
@@ -565,10 +610,24 @@
             }, 800);
         }
 
+        // 点击事件处理函数
+        function handleClick(event) {
+            if (!hasInstructionToday) {
+                generateRandomInstruction();
+            } else {
+                console.log('今天已有指令，点击无效');
+                // 给用户一个视觉反馈
+                event.currentTarget.style.animation = 'click-pulse 0.5s ease';
+                setTimeout(() => {
+                    event.currentTarget.style.animation = '';
+                }, 500);
+            }
+        }
+
         // 添加点击事件监听器
         function addClickListeners() {
-            instructionText.addEventListener('click', generateRandomInstruction);
-            footerText.addEventListener('click', generateRandomInstruction);
+            instructionText.addEventListener('click', handleClick);
+            footerText.addEventListener('click', handleClick);
         }
 
         // 页面加载时初始化
@@ -578,8 +637,9 @@
             preloadFont();
             addClickListeners();
             
+            // 键盘事件监听（空格或回车生成指令）
             document.addEventListener('keydown', function(event) {
-                if (event.code === 'Space' || event.code === 'Enter') {
+                if (!hasInstructionToday && (event.code === 'Space' || event.code === 'Enter')) {
                     generateRandomInstruction();
                 }
             });
