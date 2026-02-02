@@ -319,7 +319,7 @@
         <div class="instruction-text" id="instructionText">
             —点击获取指令—
         </div>
-        <div class="footer" id="footerText">传令员</div>
+        <div class="footer" id="footerText"></div>
     </div>
 
     <script>
@@ -538,7 +538,7 @@
             } else {
                 // 显示默认提示
                 console.log('显示初始提示，可以点击生成新指令');
-                typeWriter("点击文字生成今日指令", instructionText, 60, false);
+                typeWriter("—点击获取指令—", instructionText, 60, false);
             }
             
             updateElementStates();
